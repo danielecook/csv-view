@@ -1,1 +1,1 @@
-colA	colB	colCA	1	GREATNEW	2	50.0000CCC	4	100.0000
+colA	colB	colC	colDA	1	100.0100	alphaG	2	50.0000	betaCCC	4	100.0000	cappa
