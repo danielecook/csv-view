@@ -1,0 +1,1 @@
+colA	colB	colCA	1	10.01B	2	92.1C	3	100
