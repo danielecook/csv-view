@@ -1,0 +1,80 @@
+{% extends "layout.html" %}
+
+
+{% block main %}
+{{csv_output}}
+
+{% for row in csv_output %}
+
+{{ row}}
+
+{% endfor %}
+
+<table class = "table table-hover table-condensed table-striped">
+<thead>
+    {% for col in fieldnames %}
+    <th class = "{{ col }}">
+        {{ col }}
+    </th>
+  {% endfor %}
+</thead>
+<tbody>
+{% for row in out_table %}
+<tr class="row_{{ loop.index }}">
+    {% for col in fieldnames %}
+    <td class = "{{ col }}">
+        {{ row[col] }}
+    </td>
+  {% endfor %}
+</tr>
+{% endfor %}
+</table>
+</tbody>
+{% endblock %}
+
+
+{% block sidebar %}
+
+
+<table id="t" class = "table">
+<thead>
+  <tr>
+    <th>A</th>
+    <th>B</th>
+    <th>Commit</th>
+  </tr>
+</thead>
+<tbody>
+{% for commit in commits %}
+<tr>
+  <td>
+  {% if commit.hexsha != commit_old_sha %}
+    <a href = "{{ url_for('diff', csv_filename = csv_filename, commit_old_sha = commit.hexsha, commit_new_sha = commit_new_sha ) }}" type="button" class="btn btn-default btn-xs" aria-label="Left Align">  <i class="glyphicon glyphicon-ok" style="color:white"></i></a>
+  {% else %}
+    <a href = "{{ url_for('diff', csv_filename = csv_filename, commit_old_sha = commit.hexsha, commit_new_sha = commit_new_sha ) }}" type="button" class="btn btn-default btn-xs" aria-label="Left Align">  <i class="glyphicon glyphicon-ok"></i></a>
+  {% endif %}
+  </td>
+
+  <td>
+  {% if commit.hexsha != commit_new_sha  %}
+  <a href = "{{ url_for('diff', csv_filename = csv_filename, commit_old_sha = commit_old_sha,  commit_new_sha = commit.hexsha ) }}" type="button" class="btn btn-default btn-xs" aria-label="Left Align">  <i class="glyphicon glyphicon-ok" style="color:white"></i></a>
+  {% else %}
+    <a href = "{{ url_for('diff', csv_filename = csv_filename, commit_old_sha = commit_old_sha,  commit_new_sha = commit.hexsha ) }}" type="button" class="btn btn-default btn-xs" aria-label="Left Align">  <i class="glyphicon glyphicon-ok" ></i></a>
+  {% endif %}
+  </td>
+
+<td>{{ commit.message }} ({{ commit.hexsha | truncate(7, end = '') }})</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+
+<ul>
+<li><strong>Added: </strong>{{ p["added"]|length }}</li>
+<li><strong>Changed: </strong>{{ p["changed"]|length }}</li>
+<li><strong>Removed: </strong>{{ p["removed"]|length }}</li>
+</ul>
+
+
+
+{% endblock %}

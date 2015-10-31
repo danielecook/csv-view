@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>{{ title }}</title>
+
+    <!-- Bootstrap core CSS -->
+
+    <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
+
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+<style>
+::-webkit-scrollbar { 
+    display: none; 
+}
+</style>
+
+  </head>
+
+
+
+  <body>
+
+    <nav class="navbar navbar-inverse">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">CSV View</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+        </div><!--/.navbar-collapse -->
+      </div>
+    </nav>
+
+   
+
+    <div class="container-fluid">
+      <!-- Example row of columns -->
+      <div class="row">
+        <div class="col-md-9" style = "overflow: scroll;">
+          {% block main %}{% endblock %}
+        </div>
+        <div class="col-md-3 col-sm-4 col-xs-6" style="position:fixed;right:10px">
+          {% block sidebar %}{% endblock %}
+       </div>
+      </div>
+
+    </div> <!-- /container -->
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+
+
+<script type="text/javascript">
+var data = {{ p|safe }}
+
+// Changed
+$(data.changed).each(function(n) {
+  var item = data.changed[n];
+  for (var col in item.fields) {
+    for (var row in item.key) {
+      row = item.key[row];
+      from = item.fields[col]["from"];
+      to = item.fields[col]["to"];
+      td = "tr.row_" + row + " > td." + col;
+      console.log("col:" + col + "; row:" + row)
+      $(td).html(from + " <i class='glyphicon glyphicon-arrow-right'></i>" + " <strong>" + to + "</strong>")
+      $(td).addClass("warning")
+  }
+}
+})
+
+
+// Added
+$(data.added).each(function(n) {
+      row = data.added[n].ID;
+      console.log(row);
+      td = "tr.row_" + row;
+      $(td).addClass("success")
+
+})
+
+$(data.removed).each(function(n) {
+      row = data.removed[n].ID;
+      console.log(row);
+      td = "tr.row_" + row;
+      $(td).addClass("error")
+
+})
+
+
+</script>
+
+  </body>
+</html>
