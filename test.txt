@@ -1,1 +1,1 @@
-colA	colB	colCA	1	10.01G	2	50C	4	100
+colA	colB	colCA	1	100.0100G	2	50.0000CCC	4	100.0000
