@@ -73,6 +73,7 @@
 
 <script type="text/javascript">
 var data = {{ p|safe }}
+var fieldnames = {{ fieldnames_out|safe }}
 
 // Changed
 $(data.changed).each(function(n) {
@@ -84,8 +85,22 @@ $(data.changed).each(function(n) {
       to = item.fields[col]["to"];
       td = "tr.row_" + row + " > td." + col;
       console.log("col:" + col + "; row:" + row)
-      $(td).html(from + " <i class='glyphicon glyphicon-arrow-right'></i>" + " <strong>" + to + "</strong>")
-      $(td).addClass("warning")
+      console.log($(td));
+      if ($(td).length == 0) {
+        $('#t').find('tr').each(function(){
+          $(this).find('th').eq(n).after('<th class = "' + col + '">' + col + '</td>');
+          $(this).find('td').eq(n).after('<td class = "row_' + n + ' ' + col + '">' + from  + " <i class='glyphicon glyphicon-arrow-right'></i> " + to + "</td>");
+          
+        });
+      }
+      $(td).html(from + " <i class='glyphicon glyphicon-arrow-right'></i> " + " <strong>" + to + "</strong>")
+      if (from == "") {
+        $(td).addClass("success")
+      } else if (to == "") {
+        $(td).addClass("danger")
+      } else {
+        $(td).addClass("warning")
+      }
   }
 }
 })
@@ -102,9 +117,15 @@ $(data.added).each(function(n) {
 
 $(data.removed).each(function(n) {
       row = data.removed[n].ID;
-      console.log(row);
-      td = "tr.row_" + row;
-      $(td).addClass("error")
+      console.log(row)
+      new_row = ""
+      $.each(fieldnames, function(key, col) {
+        new_row += "<td>" + data.removed[n][col] + "</td>"
+        console.log(new_row);
+      });
+      $('#t > tbody:last-child').append('<tr class="danger">' + new_row + '</tr>');
+      //td = "tr.row_" + row;
+      //$(td).addClass("danger")
 
 })
 

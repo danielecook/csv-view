@@ -3,7 +3,7 @@ from setuptools import setup
 
 setup(name='csv-view',
       version='0.0.1',
-      packages=['csv_view'],
+      packages=['csv_view','csv_view.csvdiff'],
       description='Tools for working with VCF files',
       url='https://github.com/AndersenLab/vcf-toolbox',
       author='Daniel Cook',

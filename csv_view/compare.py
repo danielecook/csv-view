@@ -1,13 +1,14 @@
 from flask import Flask, render_template, redirect, url_for
-from csvdiff import diff_files, patch
+from csv_view.csvdiff import diff_files, patch
 import webbrowser
 from collections import OrderedDict
 from io import StringIO
-import csv
+import unicodecsv as csv
 from git import Repo
 import json
 import os
 import sys
+from difflib import SequenceMatcher
 import random, threading, webbrowser
 
 
@@ -70,9 +71,11 @@ def diff(csv_filename, commit_old_sha = None, commit_new_sha = None):
         out_table.append(OrderedDict(row))
 
     csv_old = commit_to_csv(commit_old,csv_filename_rel)
-    print csv_old.fieldnames
-    p = patch.create(csv_old, csv_new, ["ID"])
-
+    csv_old.fieldnames = fieldnames
+    csv_new.fieldnames = fieldnames
+    patch_out = patch.create(csv_old, csv_new, ["ID"])
+    p = json.dumps(patch_out)
+    fieldnames_out = json.dumps([str(x) for x in fieldnames])
     return render_template("main.html", **locals())
 
 def main():

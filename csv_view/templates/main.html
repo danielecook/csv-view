@@ -10,7 +10,7 @@
 
 {% endfor %}
 
-<table class = "table table-hover table-condensed table-striped">
+<table id="t" class = "table table-hover table-condensed table-striped">
 <thead>
     {% for col in fieldnames %}
     <th class = "{{ col }}">
@@ -36,7 +36,7 @@
 {% block sidebar %}
 
 
-<table id="t" class = "table">
+<table class = "table">
 <thead>
   <tr>
     <th>A</th>
@@ -70,9 +70,9 @@
 </table>
 
 <ul>
-<li><strong>Added: </strong>{{ p["added"]|length }}</li>
-<li><strong>Changed: </strong>{{ p["changed"]|length }}</li>
-<li><strong>Removed: </strong>{{ p["removed"]|length }}</li>
+<li><strong>Added: </strong>{{ patch_out["added"]|length }}</li>
+<li><strong>Changed: </strong>{{  patch_out["changed"]|length }}</li>
+<li><strong>Removed: </strong>{{  patch_out["removed"]|length }}</li>
 </ul>
 
 
