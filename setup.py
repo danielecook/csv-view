@@ -13,5 +13,5 @@ setup(name='csv-view',
       [console_scripts]
             csv_view = csv_view.compare:main
       """,
-      install_requires=["flask", "GitPython"],
+      install_requires=["flask", "GitPython", "click", "jsonschema", "unicodecsv"],
       zip_safe=False)
