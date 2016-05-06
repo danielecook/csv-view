@@ -1,6 +1,6 @@
 # csv-view
 
-Compare CSV Files in a git repo. Kind of works.
+Compare CSV Files in a git repo. `csv-view` is still in development. Pull-requests and suggestions are welcomed.
 
 # Usage
 
